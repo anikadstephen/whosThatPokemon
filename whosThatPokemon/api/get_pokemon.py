@@ -1,6 +1,7 @@
 import flask
 import whosThatPokemon
 from whosThatPokemon.api.exceptions import InvalidUsage
+import os
 
 @whosThatPokemon.app.route('/api/', methods=['GET'])
 def get_options():
@@ -16,23 +17,23 @@ def get_options():
 	for item in context:
 		filename = item["Name"] + ".png"
 		item['color_url'] = flask.url_for('download_color',
-                                              filename=filename)
+                                              filename=filename, region=region)
 		item['silhouette'] = flask.url_for('download_silhouette',
-                                              filename=filename)
+                                              filename=filename, region=region)
 
 	return flask.jsonify(context)
 
 
-@whosThatPokemon.app.route('/color_pokemon/<path:filename>')
-def download_color(filename):
+@whosThatPokemon.app.route('/color_pokemon/<path:region>/<path:filename>')
+def download_color(filename, region):
     """To download image files."""
-    return flask.send_from_directory(whosThatPokemon.app.config['COLOR_FOLDER'],
+    return flask.send_from_directory(os.path.join(whosThatPokemon.app.config['COLOR_FOLDER'],region),
                                      filename, as_attachment=False)
 
-@whosThatPokemon.app.route('/silhouette_pokemon/<path:filename>')
-def download_silhouette(filename):
+@whosThatPokemon.app.route('/silhouette_pokemon/<path:region>/<path:filename>')
+def download_silhouette(filename, region):
     """To download image files."""
-    return flask.send_from_directory(whosThatPokemon.app.config['SILHOUETTE_FOLDER'],
+    return flask.send_from_directory(os.path.join(whosThatPokemon.app.config['SILHOUETTE_FOLDER'],region),
                                      filename, as_attachment=False)
 
 

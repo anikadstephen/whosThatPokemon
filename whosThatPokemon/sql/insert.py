@@ -11,12 +11,12 @@ cursor = conn.cursor()
 
 project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-color = os.path.join(project_dir, 'static', 'img', 'color_pokemon')
+color = os.path.join(project_dir, 'static', 'img', 'color_pokemon', 'Hoenn')
 
 for filename in os.listdir(color):
 	pokemon_name = filename[:filename.find('.png')]
 	print(pokemon_name)
-	cursor.execute("INSERT INTO pokemon VALUES(?,?)", (pokemon_name, "Kanto"))
+	cursor.execute("INSERT INTO pokemon VALUES(?,?)", (pokemon_name, "Hoenn"))
 conn.commit()
 print(cursor.execute("SELECT * FROM pokemon").fetchall())
 conn.close()

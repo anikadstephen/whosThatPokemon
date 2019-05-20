@@ -2,7 +2,7 @@ import os
 from PIL import Image
 
 project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-directory = "whosThatPokemon/static/img/color_pokemon/"
+directory = "whosThatPokemon/static/img/color_pokemon/Hoenn"
 
 color = os.path.join(project_dir,directory)
 
@@ -39,6 +39,6 @@ for filename in os.listdir(color):
 			newData.append((0,0,0,item[3]))
 	img.putdata(newData)
 	project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-	directory = "whosThatPokemon/static/img/silhouette_pokemon/{}".format(filename)
+	directory = "whosThatPokemon/static/img/silhouette_pokemon/Hoenn/{}".format(filename)
 	name = os.path.join(project_dir,directory)
 	img.save(name, 'PNG')

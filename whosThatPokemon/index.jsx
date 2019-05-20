@@ -18,17 +18,18 @@ class Index extends React.Component {
       options: [{"Name": ""}, {"Name": ""}, {"Name": ""}, {"Name": ""}],
       url: "",
       value: null,
-      key: null,
+      key: "Kanto",
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleNext = this.handleNext.bind(this);
+    this.handleRegionChange = this.handleRegionChange.bind(this);
   }
 
   componentDidMount() {
     let answer = Math.floor(Math.random() * 4)
     console.log(answer);
-    let url = this.props.url + "?region=Kanto"
+    let url = this.props.url + "?region=" + this.state.key
     fetch(url, { credentials: 'same-origin' })
         .then((response) => {
           if (!response.ok) throw Error(response.statusText);
@@ -64,6 +65,14 @@ class Index extends React.Component {
     this.componentDidMount()
   }
 
+  handleRegionChange(key) {
+    console.log(key);
+    this.setState({ key }, function() {
+      this.componentDidMount();
+    });
+
+  }
+
 
   render() {
     var divStyle = {
@@ -78,7 +87,7 @@ class Index extends React.Component {
           <Tabs
         id="controlled-tab-example"
         activeKey={this.state.key}
-        onSelect={key => this.setState({ key })}
+        onSelect={this.handleRegionChange}
       >
         <Tab eventKey="Kanto" title="Kanto">
         </Tab>

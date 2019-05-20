@@ -4,18 +4,21 @@ import requests
 from bs4 import BeautifulSoup
 
 def main():
-	url = "https://m.bulbapedia.bulbagarden.net/wiki/File:003Venusaur.png"
 	with open("pokemon.csv", errors='ignore') as f_in:
-		pokemon_list = csv.DictReader(f_in)
-		i = 1
-		while i <= 151:
-			row = next(pokemon_list)
+		pokemon_list = list(csv.DictReader(f_in))
+		i = 258
+		while True:
+			row = pokemon_list[i-1]
+			if int(row['Generation']) != 3:
+				break
 			pokemon_name = row['Name']
-			
-			img = get_img_url(i, pokemon_name)
-			saveFile = get_save_url(pokemon_name)
-			with open(saveFile, "wb") as f:
-				f.write(img.content)
+			try:
+				img = get_img_url(row["#"], pokemon_name)
+				saveFile = get_save_url(pokemon_name)
+				with open(saveFile, "wb") as f:
+					f.write(img.content)
+			except:
+				print("Skipped " + pokemon_name)
 			i += 1
 
 
@@ -37,7 +40,7 @@ def get_img_url(i, pokemon_name):
 
 def get_save_url(pokemon_name):
 	project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-	newfilename = "whosThatPokemon/static/img/color_pokemon/{}.png".format(pokemon_name)
+	newfilename = "whosThatPokemon/static/img/color_pokemon/Hoenn/{}.png".format(pokemon_name)
 	return os.path.join(project_dir,newfilename)
 
 

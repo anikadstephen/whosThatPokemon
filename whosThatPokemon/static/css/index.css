@@ -22,3 +22,9 @@ body {
 .nav-link.active {
   color: #9E9E9E !important;
 }
+
+.nav-tabs {
+  position: fixed;
+  top: 6px;
+  right: 25px;
+}
