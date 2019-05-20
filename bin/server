@@ -1,0 +1,84 @@
+#!/bin/bash
+#
+# whosThatPokemon
+#
+#
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+
+bad_usage() {
+  echo "Usage: $0 (start|stop|restart)"
+  exit 1
+}
+
+linux() {
+  nc -V 2>&1 | grep -q GNU
+}
+
+wsl() {
+  grep -q Microsoft /proc/version
+}
+
+running() {
+  if linux || wsl; then
+    pgrep -af "flask run --host 0.0.0.0 --port 8000" > /dev/null
+  else
+    pgrep -lf "flask run --host 0.0.0.0 --port 8000" > /dev/null
+  fi
+}
+
+
+
+start_search() {
+  if running; then
+    echo "Error: a process is already using port 8000"
+    exit 1
+  else
+    echo "starting search server ...
++ export FLASK_APP=whosThatPokemon
++ export POKEMON_SETTINGS=config.py
++ flask run --host 0.0.0.0 --port 8000 &> /dev/null &"
+    export FLASK_APP=whosThatPokemon
+    export POKEMON_SETTINGS=config.py
+    export FLASK_ENV=development
+    flask run --host 0.0.0.0 --port 8000 &> /dev/null &
+  fi
+}
+
+stop_search() {
+  echo "stopping search server ..."
+  if wsl || ! linux; then
+    NC="nc"     # WSL or macOS
+  else
+    NC="nc -c"  # Linux
+  fi
+  if running; then
+    echo "+ pkill -f 'flask run --host 0.0.0.0 --port 8000'"
+    pkill -f 'flask run --host 0.0.0.0 --port 8000'
+  fi
+}
+
+if [ $# -ne 1 ]; then
+  bad_usage
+fi
+
+case $1 in
+  "start")
+    start_search
+    ;;
+
+  "stop") 
+    stop_search
+    ;;
+
+  "restart")
+    stop_search
+    start_search
+    ;;
+
+  *)
+    bad_usage
+    ;;
+esac
