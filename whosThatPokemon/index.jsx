@@ -4,6 +4,8 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import { Navbar } from 'react-bootstrap'
 import { Nav } from 'react-bootstrap'
+import { Tab } from 'react-bootstrap'
+import { Tabs } from 'react-bootstrap'
 
 
 
@@ -16,6 +18,7 @@ class Index extends React.Component {
       options: [{"Name": ""}, {"Name": ""}, {"Name": ""}, {"Name": ""}],
       url: "",
       value: null,
+      key: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -72,11 +75,18 @@ class Index extends React.Component {
       <div>
         <Navbar bg="dark" variant="dark">
           <Navbar.Brand href="#">Who's That Pokemon</Navbar.Brand>
-          <Nav className="region">
-            <Nav.Link href="#">Kanto</Nav.Link>
-            <Nav.Link href="#">Johto</Nav.Link>
-            <Nav.Link href="#">Hoenn</Nav.Link>
-          </Nav>
+          <Tabs
+        id="controlled-tab-example"
+        activeKey={this.state.key}
+        onSelect={key => this.setState({ key })}
+      >
+        <Tab eventKey="Kanto" title="Kanto">
+        </Tab>
+        <Tab eventKey="Johto" title="Johto">
+        </Tab>
+        <Tab eventKey="Hoenn" title="Hoenn">
+        </Tab>
+      </Tabs>
         </Navbar>
         <img src={this.state.url} style={divStyle}/>
 
@@ -85,7 +95,6 @@ class Index extends React.Component {
         value={this.state.value}
         onChange={this.handleChange}
       >
-
         <ToggleButton value={this.state.options[0].Name}>{this.state.options[0].Name}</ToggleButton>
         <ToggleButton value={this.state.options[1].Name}>{this.state.options[1].Name}</ToggleButton>
         <ToggleButton value={this.state.options[2].Name}>{this.state.options[2].Name}</ToggleButton>
