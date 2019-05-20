@@ -76,7 +76,6 @@ class Index extends React.Component {
             <Nav.Link href="#">Kanto</Nav.Link>
             <Nav.Link href="#">Johto</Nav.Link>
             <Nav.Link href="#">Hoenn</Nav.Link>
-            <button className="next" onClick={this.handleNext}>Next</button>
           </Nav>
         </Navbar>
         <img src={this.state.url} style={divStyle}/>
@@ -91,6 +90,7 @@ class Index extends React.Component {
         <ToggleButton value={this.state.options[1].Name}>{this.state.options[1].Name}</ToggleButton>
         <ToggleButton value={this.state.options[2].Name}>{this.state.options[2].Name}</ToggleButton>
         <ToggleButton value={this.state.options[3].Name}>{this.state.options[3].Name}</ToggleButton>
+        <button className="next" onClick={this.handleNext}>Next</button>
       </ToggleButtonGroup>
       </div>
     );

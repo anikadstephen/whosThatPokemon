@@ -16,7 +16,5 @@ body {
 }
 
 .next {
-	position: fixed;
-	right: 10px;
-	top: 15px;
+	margin-left: 20px;	
 }
