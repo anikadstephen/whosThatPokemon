@@ -6,3 +6,5 @@ whosThatPokemon.egg-info/
 package.json
 env
 setup.py
+bundle.js
+__pycache__/
