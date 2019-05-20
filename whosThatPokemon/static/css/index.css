@@ -11,8 +11,8 @@ body {
 
 .btn-group {
 	position: fixed !important;
-	bottom: 10px;
-	left: 10px;
+	bottom: 50px;
+	left: 60px;
 }
 
 .next {
@@ -27,4 +27,9 @@ body {
   position: fixed;
   top: 6px;
   right: 25px;
+}
+
+.btn-primary {
+    background-color: #e52720 !important;
+    border-color: #0c0c0c !important;
 }

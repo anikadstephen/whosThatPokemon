@@ -95,6 +95,10 @@ class Index extends React.Component {
         </Tab>
         <Tab eventKey="Hoenn" title="Hoenn">
         </Tab>
+        <Tab eventKey="Sinnoh" title="Sinnoh">
+        </Tab>
+        <Tab eventKey="Unova" title="Unova">
+        </Tab>
       </Tabs>
         </Navbar>
         <img src={this.state.url} style={divStyle}/>

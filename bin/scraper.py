@@ -2,19 +2,44 @@ import os
 import csv
 import requests
 from bs4 import BeautifulSoup
+import click
+import shutil
 
-def main():
+@click.command()
+@click.option('--generation', help='Generation to download')
+def main(generation):
+	regions = {
+				1: "Kanto", 
+				2: "Johto", 
+				3: "Hoenn", 
+				4: "Sinnoh", 
+				5: "Unova", 
+				6: "Kalos",
+				7: "Alola",
+				8: "Galar",
+	}
+	region = regions[int(generation)]
+	project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+	new_dir = "whosThatPokemon/static/img/color_pokemon/{}".format(region)
+	folder = os.path.join(project_dir,new_dir)
+	if os.path.isdir(folder):
+		shutil.rmtree(folder)
+	os.mkdir(folder)
 	with open("pokemon.csv", errors='ignore') as f_in:
 		pokemon_list = list(csv.DictReader(f_in))
-		i = 258
+		i = 0
 		while True:
-			row = pokemon_list[i-1]
-			if int(row['Generation']) != 3:
+			row = pokemon_list[i]
+			if int(row['Generation']) < int(generation):
+				i +=1
+				continue
+			if int(row['Generation']) > int(generation):
 				break
+			
 			pokemon_name = row['Name']
 			try:
 				img = get_img_url(row["#"], pokemon_name)
-				saveFile = get_save_url(pokemon_name)
+				saveFile = get_save_url(region,pokemon_name)
 				with open(saveFile, "wb") as f:
 					f.write(img.content)
 			except:
@@ -38,9 +63,9 @@ def get_img_url(i, pokemon_name):
 	print(filename)
 	return requests.get("https:{}".format(img_tag['src']))
 
-def get_save_url(pokemon_name):
+def get_save_url(region,pokemon_name):
 	project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-	newfilename = "whosThatPokemon/static/img/color_pokemon/Hoenn/{}.png".format(pokemon_name)
+	newfilename = "whosThatPokemon/static/img/color_pokemon/{}/{}.png".format(region,pokemon_name)
 	return os.path.join(project_dir,newfilename)
 
 
