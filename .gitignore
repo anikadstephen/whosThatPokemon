@@ -1,10 +1,9 @@
 .DS_Store
 node_modules
-package-lock.json
-webpack.config.js
 whosThatPokemon.egg-info/
-package.json
 env
-setup.py
 bundle.js
 __pycache__/
+var
+color_pokemon
+silhouette_pokemon
