@@ -25,20 +25,22 @@ def main(generation):
 	if os.path.isdir(folder):
 		shutil.rmtree(folder)
 	os.mkdir(folder)
-	with open("pokemon.csv", errors='ignore') as f_in:
+	with open("bin/pokemon.csv", errors='ignore') as f_in:
 		pokemon_list = list(csv.DictReader(f_in))
 		i = 0
 		while True:
+			if i  == len(pokemon_list):
+				break
 			row = pokemon_list[i]
-			if int(row['Generation']) < int(generation):
+			if int(row['generation']) < int(generation):
 				i +=1
 				continue
-			if int(row['Generation']) > int(generation):
+			if int(row['generation']) > int(generation):
 				break
 			
-			pokemon_name = row['Name']
+			pokemon_name = row['name']
 			try:
-				img = get_img_url(row["#"], pokemon_name)
+				img = get_img_url(row["pokedex_number"], pokemon_name)
 				saveFile = get_save_url(region,pokemon_name)
 				with open(saveFile, "wb") as f:
 					f.write(img.content)
